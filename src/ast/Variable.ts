@@ -1,13 +1,15 @@
 import { Exp } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
   Representación de usos de variable en expresiones.
 */
-export class Variable implements Exp {
+export class Variable extends Exp {
   id: string;
 
   constructor(id: string) {
+    super();
     this.id = id;
   }
 
@@ -17,6 +19,10 @@ export class Variable implements Exp {
 
   unparse(): string {
     return this.id;
+  }
+  
+  evaluate(state: State): any {
+    return state.get(this.id);
   }
 
   compileCIL(context: CompilationContext): CompilationContext {

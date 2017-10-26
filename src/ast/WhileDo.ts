@@ -1,4 +1,5 @@
 import { Exp, Stmt } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
@@ -19,6 +20,13 @@ export class WhileDo implements Stmt {
 
   unparse(): string {
     return `while ${this.cond.unparse()} do { ${this.body.unparse()} }`;
+  }
+
+  evaluate(state: State): State {
+    while(this.cond.evaluateBoolean(state)){
+      state = this.body.evaluate(state);
+    }
+    return state;
   }
 
   compileCIL(context: CompilationContext): CompilationContext {

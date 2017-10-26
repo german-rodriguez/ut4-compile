@@ -4,12 +4,13 @@ import { CompilationContext } from '../compileCIL/CompilationContext';
 /**
   Representación de conjunciones booleanas (AND).
 */
-export class Disjunction implements Exp {
+export class Disjunction extends Exp {
 
   lhs: Exp;
   rhs: Exp;
 
   constructor(lhs: Exp, rhs: Exp) {
+    super();
     this.lhs = lhs;
     this.rhs = rhs;
   }
@@ -20,6 +21,10 @@ export class Disjunction implements Exp {
 
   unparse(): string {
     return `(${this.lhs.unparse()} || ${this.rhs.unparse()})`;
+  }
+
+  evaluate(state: State): any {
+    return this.lhs.evaluateBoolean(state) || this.rhs.evaluateBoolean(state);
   }
 
   compileCIL(context: CompilationContext): CompilationContext {

@@ -1,14 +1,16 @@
 import { Exp, Stmt } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
   Representación de las asignaciones de valores a variables.
 */
-export class Print implements Stmt {
+export class Print extends Stmt {
 
   exp: Exp;
 
   constructor(exp: Exp) {
+    super();
     this.exp = exp;
   }
 
@@ -19,6 +21,10 @@ export class Print implements Stmt {
   unparse(): string {
     return `print(${this.exp.unparse()});`;
   }
+
+  evaluate (state: State): State{
+    return state;
+  } 
 
   compileCIL(context: CompilationContext): CompilationContext {
     this.exp.compileCIL(context);

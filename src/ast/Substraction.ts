@@ -1,15 +1,17 @@
 import { Exp } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
   Representación de restas.
 */
-export class Substraction implements Exp {
+export class Substraction extends Exp {
 
   lhs: Exp;
   rhs: Exp;
 
   constructor(lhs: Exp, rhs: Exp) {
+    super();
     this.lhs = lhs;
     this.rhs = rhs;
   }
@@ -20,6 +22,10 @@ export class Substraction implements Exp {
 
   unparse(): string {
     return `(${this.lhs.unparse()} - ${this.rhs.unparse()})`;
+  }
+
+  evaluate(state: State): any {
+    return this.lhs.evaluateNumber(state) - this.rhs.evaluateNumber(state);
   }
 
   compileCIL(context: CompilationContext): CompilationContext {

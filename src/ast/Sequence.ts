@@ -1,4 +1,5 @@
 import { Stmt } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
@@ -26,6 +27,13 @@ export class Sequence implements Stmt {
       .map((stmt) => (stmt.toString()))
       .join(" ");
     return `{ ${statements} }`
+  }
+
+  evaluate(state: State): State {
+    for(var i = 0; i<this.statements.length; i++){
+      state = this.statements[i].evaluate(state);
+    }
+    return state;
   }
 
   compileCIL(context: CompilationContext): CompilationContext {
