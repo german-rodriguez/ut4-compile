@@ -1,4 +1,5 @@
 import { Exp } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
@@ -34,6 +35,10 @@ export class Disjunction extends Exp {
     return context;
   }
 
+  evaluate(state: State): any {
+    return this.lhs.evaluateBoolean(state) || this.rhs.evaluateBoolean(state);
+  }
+  
   maxStackIL(value: number): number {
     return Math.max(this.lhs.maxStackIL(value),this.rhs.maxStackIL(value) + 1);
   }

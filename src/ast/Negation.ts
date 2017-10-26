@@ -1,14 +1,16 @@
 import { Exp } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
   Representación de las negaciones de expresiones booleanas.
 */
-export class Negation implements Exp {
+export class Negation extends Exp {
 
   exp: Exp;
 
   constructor(exp: Exp) {
+    super();
     this.exp = exp;
   }
 
@@ -26,6 +28,9 @@ export class Negation implements Exp {
     return context;
   }
 
+  evaluate(state: State){
+    return !this.exp.evaluate(state);
+  }
   maxStackIL(value: number): number {
     return this.exp.maxStackIL(value);
   }

@@ -1,15 +1,17 @@
 import { Exp } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
   Representación de las comparaciones por menor o igual.
 */
-export class CompareLessOrEqual implements Exp {
+export class CompareLessOrEqual extends Exp {
 
   lhs: Exp;
   rhs: Exp;
 
   constructor(lhs: Exp, rhs: Exp) {
+    super();
     this.lhs = lhs;
     this.rhs = rhs;
   }
@@ -28,6 +30,10 @@ export class CompareLessOrEqual implements Exp {
     context.appendInstruction('cgt');
     context.appendInstruction('neg');
     return context;
+  }
+
+  evaluate(state: State): any {
+    return this.lhs.evaluateNumber(state) <= this.rhs.evaluateNumber(state);
   }
 
   maxStackIL(value: number): number {

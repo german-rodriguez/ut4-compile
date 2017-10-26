@@ -5,12 +5,13 @@ import { CompilationContext } from '../compileCIL/CompilationContext';
 /**
   Representación de sumas.
 */
-export class Addition implements Exp {
+export class Addition extends Exp {
 
   lhs: Exp;
   rhs: Exp;
 
   constructor(lhs: Exp, rhs: Exp) {
+    super();
     this.lhs = lhs;
     this.rhs = rhs;
   }
