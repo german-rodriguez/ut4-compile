@@ -12,7 +12,7 @@ export interface ASTNode {
 */
 export abstract class Exp implements ASTNode {
 
-  abstract optimization(): any;
+  abstract optimization(state: State): any;
   abstract toString(): string;
   abstract unparse(): string;
   abstract evaluate(state: State): any;
