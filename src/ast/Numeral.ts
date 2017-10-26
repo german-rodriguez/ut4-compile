@@ -1,14 +1,16 @@
 import { Exp } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
   Representación de constantes numéricas o numerales.
 */
-export class Numeral implements Exp {
+export class Numeral extends Exp {
 
   value: number;
 
   constructor(value: number) {
+    super();
     this.value = value;
   }
 
@@ -26,6 +28,9 @@ export class Numeral implements Exp {
     return context;
   }
 
+  evaluate(state: State): any{
+    return this.value;
+  }
   maxStackIL(value: number): number {
     return value + 1;
   }

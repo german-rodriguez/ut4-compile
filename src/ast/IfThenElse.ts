@@ -1,4 +1,5 @@
 import { Exp, Stmt } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
@@ -34,6 +35,15 @@ export class IfThenElse implements Stmt {
     context = this.elseBody.compileCIL(context);
     context.appendInstruction(`${tagDone}:`);
     return context;
+  }
+
+  evaluate(state: State): State {
+    if (this.cond.evaluateBoolean(state)){
+      state = this.thenBody.evaluate(state);
+    } else{
+      state = this.elseBody.evaluate(state);
+    }
+    return state;
   }
 
   maxStackIL(value: number): number {

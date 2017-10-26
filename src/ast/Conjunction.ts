@@ -1,15 +1,17 @@
 import { Exp } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
   Representación de conjunciones booleanas (AND).
 */
-export class Conjunction implements Exp {
+export class Conjunction extends Exp {
 
   lhs: Exp;
   rhs: Exp;
 
   constructor(lhs: Exp, rhs: Exp) {
+    super();
     this.lhs = lhs;
     this.rhs = rhs;
   }
@@ -27,6 +29,10 @@ export class Conjunction implements Exp {
     context = this.lhs.compileCIL(context);
     context.appendInstruction('and');
     return context;
+  }
+
+  evaluate(state: State): any {
+    return this.lhs.evaluateBoolean(state) && this.rhs.evaluateBoolean(state);
   }
 
   maxStackIL(value: number): number {

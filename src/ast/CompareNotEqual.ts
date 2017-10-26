@@ -1,15 +1,17 @@
 import { Exp } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
   Representación de las comparaciones por igual.
 */
-export class CompareNotEqual implements Exp {
+export class CompareNotEqual extends Exp {
 
   lhs: Exp;
   rhs: Exp;
 
   constructor(lhs: Exp, rhs: Exp) {
+    super();
     this.lhs = lhs;
     this.rhs = rhs;
   }
@@ -28,6 +30,10 @@ export class CompareNotEqual implements Exp {
     context.appendInstruction('ceq');
     context.appendInstruction('neg');
     return context;
+  }
+
+  evaluate(state: State): any {
+    return this.lhs.evaluateNumber(state) != this.rhs.evaluateNumber(state);
   }
 
   maxStackIL(value: number): number {

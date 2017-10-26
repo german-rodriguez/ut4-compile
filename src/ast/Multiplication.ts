@@ -1,15 +1,17 @@
 import { Exp } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
   Representación de sumas.
 */
-export class Multiplication implements Exp {
+export class Multiplication extends Exp {
 
   lhs: Exp;
   rhs: Exp;
 
   constructor(lhs: Exp, rhs: Exp) {
+    super();
     this.lhs = lhs;
     this.rhs = rhs;
   }
@@ -29,6 +31,10 @@ export class Multiplication implements Exp {
     return context;
   }
 
+  evaluate(state: State): any{
+    return this.lhs.evaluateNumber(state) * this.rhs.evaluateNumber(state);
+  }
+  
   maxStackIL(value: number): number {
     return Math.max(this.lhs.maxStackIL(value),this.rhs.maxStackIL(value) + 1);
   }

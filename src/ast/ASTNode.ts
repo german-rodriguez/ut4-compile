@@ -18,6 +18,21 @@ export abstract class Exp implements ASTNode {
   abstract maxStackIL(value: number): number;
   abstract compileCIL(context: CompilationContext): CompilationContext;
 
+  evaluateNumber(state: State): number{
+    var e = this.evaluate(state);
+    if (typeof e == 'number'){
+      return this.evaluate(state);
+    }
+    else { throw "Type error"; }
+  }
+
+  evaluateBoolean(state: State): boolean{
+    var e = this.evaluate(state);
+    if (typeof e == 'boolean'){
+      return this.evaluate(state);
+    }
+    else { throw "Type error"; }
+  }
 }
 
 /**
