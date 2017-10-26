@@ -1,4 +1,5 @@
 import { Exp, Stmt } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
@@ -26,7 +27,7 @@ export class Assignment implements Stmt {
     state.set(this.id,this.exp.evaluate(state));
     return state;
   }
-  
+
   compileCIL(context: CompilationContext): CompilationContext {
     context = this.exp.compileCIL(context);
     var str = '';

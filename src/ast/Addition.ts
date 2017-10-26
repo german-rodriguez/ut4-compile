@@ -1,4 +1,5 @@
 import { Exp } from './ASTNode';
+import { State } from '../interpreter/State';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
@@ -30,7 +31,7 @@ export class Addition implements Exp {
     }
     else{ throw "Type error"; }
   }
-  
+
   compileCIL(context: CompilationContext): CompilationContext {
     context = this.lhs.compileCIL(context);
     context = this.rhs.compileCIL(context);
