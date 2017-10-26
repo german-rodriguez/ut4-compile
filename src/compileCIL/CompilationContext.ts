@@ -45,15 +45,18 @@ export class CompilationContext {
     var str = "";
     for(var i=0;i<this.vars.length;i++){
       str += `
+      ldstr "${this.vars[i].id} = "
       ldloc ${i.toString(16)}
-      call void class [mscorlib]System.Console::WriteLine(int32)`;
+      box [mscorlib]System.Int32
+      call string string::Concat(object, object)
+      call void class [mscorlib]System.Console::WriteLine(string)`;
     }
     return `    .assembly Main {}
     .assembly extern mscorlib {}
     .method static void Main()
     {
       .entrypoint
-      .maxstack ${maxStack}
+      .maxstack ${Math.max(maxStack,2)}
       .locals(${this.freeVariables()})
       ${this.cil.join('\n      ')}
       ${str}

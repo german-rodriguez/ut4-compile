@@ -22,6 +22,15 @@ export class Addition implements Exp {
     return `(${this.lhs.unparse()} + ${this.rhs.unparse()})`;
   }
 
+  evaluate(state: State): any {
+    var l = this.lhs.evaluate(state);
+    var r = this.rhs.evaluate(state);
+    if ((typeof l != 'boolean') && (typeof r != 'boolean')){
+      return l + r;
+    }
+    else{ throw "Type error"; }
+  }
+  
   compileCIL(context: CompilationContext): CompilationContext {
     context = this.lhs.compileCIL(context);
     context = this.rhs.compileCIL(context);

@@ -1,4 +1,5 @@
 import { CompilationContext } from '../compileCIL/CompilationContext';
+import { State } from '../interpreter/State';
 
 export interface ASTNode {
   toString(): string;
@@ -9,10 +10,13 @@ export interface ASTNode {
   Categoría sintáctica de las expresiones de While, las
   construcciones del lenguaje que evalúan a un valor.
 */
-export interface Exp extends ASTNode {
+export abstract class Exp implements ASTNode {
 
-  compileCIL(context: CompilationContext): CompilationContext;
-  maxStackIL(value: number): number;
+  abstract toString(): string;
+  abstract unparse(): string;
+  abstract evaluate(state: State): any;
+  abstract maxStackIL(value: number): number;
+  abstract compileCIL(context: CompilationContext): CompilationContext;
 
 }
 
@@ -25,5 +29,5 @@ export interface Stmt extends ASTNode {
 
   compileCIL(context: CompilationContext): CompilationContext;
   maxStackIL(value: number): number;
-
+  evaluate(state:State): State;
 }

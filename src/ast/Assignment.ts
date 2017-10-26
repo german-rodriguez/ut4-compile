@@ -22,6 +22,11 @@ export class Assignment implements Stmt {
     return `${this.id} = ${this.exp.unparse()}`;
   }
 
+  evaluate(state: State): State {
+    state.set(this.id,this.exp.evaluate(state));
+    return state;
+  }
+  
   compileCIL(context: CompilationContext): CompilationContext {
     context = this.exp.compileCIL(context);
     var str = '';
