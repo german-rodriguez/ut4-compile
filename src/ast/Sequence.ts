@@ -37,7 +37,9 @@ export class Sequence implements Stmt {
   }
 
   optimization(state: State): any{
-    
+      let stmts = [] as [Stmt];
+      this.statements.map((s) => stmts.push(s.optimization(state)));
+      return new Sequence(stmts);      
   }
 
   compileCIL(context: CompilationContext): CompilationContext {

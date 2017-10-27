@@ -1,5 +1,6 @@
 import { Exp, Stmt } from './ASTNode';
 import { State } from '../interpreter/State';
+import { TruthValue, Sequence } from './AST';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
@@ -29,6 +30,14 @@ export class WhileDo implements Stmt {
     return state;
   }
 
+  optimization(state: State): any{
+    let cond = this.cond.optimization(state);
+    let body = this.body.optimization(state);
+    if(cond instanceof TruthValue && !cond.value){
+      return new Sequence([] as [Stmt]);
+    }
+    return new WhileDo(cond,body);
+  }
   compileCIL(context: CompilationContext): CompilationContext {
     var tagStart = context.getTag();
     var tagCond = context.getTag();

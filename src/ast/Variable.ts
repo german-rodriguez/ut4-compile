@@ -20,9 +20,15 @@ export class Variable extends Exp {
   unparse(): string {
     return this.id;
   }
-  
+
   evaluate(state: State): any {
     return state.get(this.id);
+  }
+
+  optimization(state: State): any{
+      let v = state.get(this.id);
+      if(v != undefined) return v;
+      return this;
   }
 
   compileCIL(context: CompilationContext): CompilationContext {

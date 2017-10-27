@@ -26,6 +26,10 @@ export class TruthValue extends Exp {
     return this.value;
   }
 
+  optimization(state: State): any{
+    return this;
+  }
+
   compileCIL(context: CompilationContext): CompilationContext {
     if(this.value) context.appendInstruction('ldc.i4.1');
     else context.appendInstruction('ldc.i4.0');
