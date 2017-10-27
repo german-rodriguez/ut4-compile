@@ -1,5 +1,6 @@
 import { Exp } from './ASTNode';
 import { State } from '../interpreter/State';
+import { Numeral, TruthValue } from './AST';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
@@ -34,6 +35,13 @@ export class CompareGreatOrEqual extends Exp {
 
   evaluate(state: State): any {
     return this.lhs.evaluateNumber(state) >= this.rhs.evaluateNumber(state);
+  }
+
+  optimization(state: State): any{
+    let lhs = this.lhs.optimization(state);
+    let rhs = this.rhs.optimization(state);
+    if(lhs instanceof Numeral && rhs instanceof Numeral) return new TruthValue(lhs.value >= rhs.value);
+    return new CompareGreatOrEqual(lhs,rhs);
   }
 
   maxStackIL(value: number): number {

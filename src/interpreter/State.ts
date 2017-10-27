@@ -17,4 +17,8 @@ export class State {
   set(id: string, value: any) {
     this.vars.set(id, value);
   }
+
+  delete(id: string){
+    this.vars.delete(id);
+  }
 }

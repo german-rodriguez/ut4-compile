@@ -47,4 +47,5 @@ export interface Stmt extends ASTNode {
   compileCIL(context: CompilationContext): CompilationContext;
   maxStackIL(value: number): number;
   evaluate(state:State): State;
+  optimization(state: State): any;
 }

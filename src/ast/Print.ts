@@ -5,12 +5,11 @@ import { CompilationContext } from '../compileCIL/CompilationContext';
 /**
   Representación de las asignaciones de valores a variables.
 */
-export class Print extends Stmt {
+export class Print implements Stmt {
 
   exp: Exp;
 
   constructor(exp: Exp) {
-    super();
     this.exp = exp;
   }
 
@@ -24,8 +23,11 @@ export class Print extends Stmt {
 
   evaluate (state: State): State{
     return state;
-  } 
+  }
 
+  optimization(state: State): any{
+    return this;
+  }
   compileCIL(context: CompilationContext): CompilationContext {
     this.exp.compileCIL(context);
     context.appendInstruction("call void class [mscorlib]System.Console::WriteLine(int32)");

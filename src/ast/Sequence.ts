@@ -36,6 +36,10 @@ export class Sequence implements Stmt {
     return state;
   }
 
+  optimization(state: State): any{
+    
+  }
+
   compileCIL(context: CompilationContext): CompilationContext {
     for(var i=0;i<this.statements.length;i++){
       context = this.statements[i].compileCIL(context);

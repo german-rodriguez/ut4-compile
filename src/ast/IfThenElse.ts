@@ -1,5 +1,6 @@
 import { Exp, Stmt } from './ASTNode';
 import { State } from '../interpreter/State';
+import { TruthValue, Sequence } from './AST';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
@@ -44,6 +45,17 @@ export class IfThenElse implements Stmt {
       state = this.elseBody.evaluate(state);
     }
     return state;
+  }
+
+  optimization(state: State): any{
+    let cond = this.cond.optimization(state);
+    let thenBody = this.thenBody.optimization(state);
+    let elseBody = this.elseBody.optimization(state);
+    if(cond instanceof TruthValue){
+      if(cond.value) return thenBody;
+      else return elseBody;
+    }
+    return new IfThenElse(cond,thenBody,elseBody);
   }
 
   maxStackIL(value: number): number {

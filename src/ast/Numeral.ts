@@ -31,6 +31,11 @@ export class Numeral extends Exp {
   evaluate(state: State): any{
     return this.value;
   }
+
+  optimization(state: State): any{
+    return this;
+  }
+  
   maxStackIL(value: number): number {
     return value + 1;
   }

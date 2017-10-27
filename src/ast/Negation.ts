@@ -1,5 +1,6 @@
 import { Exp } from './ASTNode';
 import { State } from '../interpreter/State';
+import { TruthValue } from './AST';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
@@ -31,6 +32,13 @@ export class Negation extends Exp {
   evaluate(state: State){
     return !this.exp.evaluate(state);
   }
+
+  optimization(state: State): any{
+      let exp = this.exp.optimization(state);
+      if(exp instanceof TruthValue) return new TruthValue(!exp.value);
+      return new Negation(exp);
+  }
+
   maxStackIL(value: number): number {
     return this.exp.maxStackIL(value);
   }

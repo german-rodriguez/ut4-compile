@@ -1,5 +1,6 @@
 import { Exp, Stmt } from './ASTNode';
 import { State } from '../interpreter/State';
+import { TruthValue, Numeral } from './AST';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
@@ -26,6 +27,13 @@ export class Assignment implements Stmt {
   evaluate(state: State): State {
     state.set(this.id,this.exp.evaluate(state));
     return state;
+  }
+
+  optimization(state: State): any{
+    let exp = this.exp.optimization(state);
+    if(exp instanceof (Numeral || TruthValue)) state.set(this.id,exp.value);
+    else state.delete(this.id);
+    return new Assignment(this.id,exp);
   }
 
   compileCIL(context: CompilationContext): CompilationContext {

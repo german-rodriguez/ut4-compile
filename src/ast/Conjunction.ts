@@ -1,5 +1,6 @@
 import { Exp } from './ASTNode';
 import { State } from '../interpreter/State';
+import { TruthValue } from './AST';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
@@ -33,6 +34,13 @@ export class Conjunction extends Exp {
 
   evaluate(state: State): any {
     return this.lhs.evaluateBoolean(state) && this.rhs.evaluateBoolean(state);
+  }
+
+  optimization(state: State): any{
+    let lhs = this.lhs.optimization(state);
+    let rhs = this.rhs.optimization(state);
+    if(lhs instanceof TruthValue && rhs instanceof TruthValue) return new TruthValue(lhs.value && rhs.value);
+    return new Conjunction(lhs,rhs);
   }
 
   maxStackIL(value: number): number {
