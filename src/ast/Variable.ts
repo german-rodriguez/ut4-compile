@@ -1,5 +1,6 @@
 import { Exp } from './ASTNode';
 import { State } from '../interpreter/State';
+import { Numeral, TruthValue } from './AST';
 import { CompilationContext } from '../compileCIL/CompilationContext';
 
 /**
@@ -27,7 +28,8 @@ export class Variable extends Exp {
 
   optimization(state: State): any{
       let v = state.get(this.id);
-      if(v != undefined) return v;
+      if(typeof v == 'number') return new Numeral(v);
+      if(typeof v == 'boolean') return new TruthValue(v);
       return this;
   }
 

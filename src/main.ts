@@ -7,6 +7,7 @@ import { MyLexer } from "./parser/Lexer"
 import { ParserRules, ParserStart } from "./parser/Grammar";
 
 import { ASTNode, Stmt } from './ast/AST';
+import { State } from './interpreter/State';
 
 import { CompilationContext } from './compileCIL/CompilationContext';
 
@@ -14,6 +15,7 @@ import { CompilationContext } from './compileCIL/CompilationContext';
 console.log("While :: REPL");
 
 var context = new CompilationContext();
+var state = new State();
 
 while (true) {
   const lexer = new MyLexer(tokens);
@@ -35,7 +37,8 @@ while (true) {
       case 1: {
         const node = nodes[0];
         const maxStack = node.maxStackIL(0);
-        context = node.compileCIL(context);
+        var aux = node.optimization(state);
+        context = aux.compileCIL(context);
         var str = context.getCIL(maxStack)
         console.log(str);
 

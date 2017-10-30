@@ -38,6 +38,7 @@ export class WhileDo implements Stmt {
     }
     return new WhileDo(cond,body);
   }
+  
   compileCIL(context: CompilationContext): CompilationContext {
     var tagStart = context.getTag();
     var tagCond = context.getTag();
