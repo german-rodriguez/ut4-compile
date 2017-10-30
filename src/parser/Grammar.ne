@@ -24,7 +24,8 @@ import {
   TruthValue,
   Variable,
   WhileDo,
-  Print
+  Print,
+  Random
 } from '../ast/AST';
 
 import { tokens } from './Tokens';
@@ -86,6 +87,7 @@ value ->
   | "true"                  {% () => (new TruthValue(true)) %}
   | "false"                 {% () => (new TruthValue(false)) %}
   | identifier              {% ([id]) => (new Variable(id)) %}
+  | "random" "(" ")"        {% ([,,,]) => (new Random()) %}
 
 
 # Atoms
